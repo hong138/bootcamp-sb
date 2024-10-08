@@ -1,0 +1,31 @@
+{
+  "configurations": [
+    
+
+    
+    {
+      "type": "java",
+      "name": "Database",
+      "request": "launch",
+      "mainClass": "com.bootcamp.demo.demo_sb_restapi.model.Database",
+      "projectName": "demo"
+    },
+    {
+      "type": "java",
+      "name": "Cat",
+      "request": "launch",
+      "mainClass": "com.bootcamp.demo.demo_sb_restapi.controller.model.Cat",
+      "projectName": "demo"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-DemoSbRestapiApplication<demo>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.bootcamp.demo.demo_sb_restapi.DemoSbRestapiApplication",
+      "projectName": "demo",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
