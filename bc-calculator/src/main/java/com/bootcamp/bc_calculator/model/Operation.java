@@ -1,7 +1,10 @@
-package com.bootcamp.demo.bc_calculator.model;
+package com.bootcamp.bc_calculator.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
+import com.bootcamp.bc_calculator.exception.CannotDivideZeroException;
+
 import lombok.Getter;
 
 @Getter
@@ -24,9 +27,9 @@ public enum Operation {
       case MULTIPLY -> x.multiply(y).setScale(5).toString();
       case DIVIDE -> {
         if (y.equals(BigDecimal.ZERO)) {
-          throw new IllegalArgumentException("y cannot be zero");
+          throw new CannotDivideZeroException("y cannot be zero");
         }
-        yield x.divide(y, 5, RoundingMode.HALF_UP).toString();
+        yield x.divide(y).setScale(5).toString();
       }
     default throw new IllegalArgumentException("Invalid operation: " + operation);
     }

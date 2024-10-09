@@ -1,4 +1,4 @@
-package com.bootcamp.demo.bc_calculator.model;
+package com.bootcamp.bc_calculator.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,5 +15,8 @@ import lombok.ToString;
 @Builder
 
 public class CalculateResponse {
-  
+  private String x;
+  private String y;
+  private String operation;
+  private String result;
 }

@@ -1,4 +1,4 @@
-package com.bootcamp.demo.bc_calculator.controller.impl;
+package com.bootcamp.bc_calculator.controller.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.bootcamp.demo.bc_calculator.config;
+package com.bootcamp.bc_calculator.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
