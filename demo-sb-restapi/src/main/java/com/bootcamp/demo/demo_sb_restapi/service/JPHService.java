@@ -4,10 +4,16 @@ package com.bootcamp.demo.demo_sb_restapi.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.UserDTO;
 
 public interface JPHService {
   List<UserDTO> getUsers();
   List<UserEntity> saveUsers();
+  Boolean deleteUser(Long id);
+  UserEntity updateUser(Long id, UserEntity entity);
+  UserEntity patchUserWebsite(Long id, String website);
+  UserEntity createUser(@RequestBody UserEntity userentity);
 }

@@ -35,4 +35,20 @@ public class JPHController implements JPHOperation{
   public List<UserEntity> createUsers() {
     return this.jphService.saveUsers();
   }
+
+  @Override
+  public Boolean deleteUsers(Long id) {
+    return this.jphService.deleteUser(id);
+  }
+
+  @Override
+  public UserEntity updateUser(Long id, UserEntity entity) {
+    return this.jphService.updateUser(id, entity);
+  }
+
+  @Override
+  public UserEntity createUser(UserEntity userentity) {
+    return this.jphService.createUser(userentity);
+  }
+
 }

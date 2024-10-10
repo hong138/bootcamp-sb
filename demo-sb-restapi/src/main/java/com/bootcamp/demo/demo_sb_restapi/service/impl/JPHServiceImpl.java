@@ -1,6 +1,7 @@
 package com.bootcamp.demo.demo_sb_restapi.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +47,14 @@ public class JPHServiceImpl implements JPHService {
 
   @Override
   public List<UserDTO> getUsers() {
-    String url = Url.builder().scheme(Scheme.HTTPS)
+    String url = Url.builder()
+                 .scheme(Scheme.HTTPS)
                  .domain(this.jphdomain)
                  .endpoint(this.usersEndpoint)
-                 .build().toUriString();
+                 .build()
+                 .toUriString();
     System.out.println("url: " + url);
+    // Happy Path
     UserDTO[] users;
 
     try {
@@ -78,4 +82,39 @@ public class JPHServiceImpl implements JPHService {
 
   // saveUser(int id)
   // -> stream filter -> save()
+
+  @Override
+  public Boolean deleteUser(Long id) {
+    if (this.userRepository.findById(id).isPresent()){
+    this.userRepository.deleteById(id);
+    return true;
+  }
+  return false;
+  }
+
+  @Override
+  public UserEntity updateUser(Long id, UserEntity entity) {
+    if (id == null || entity == null || !id.equals(entity.getId())){
+    throw new IllegalArgumentException("");
+    }
+    if (this.userRepository.findById(id).isPresent()){
+      return this.userRepository.save(entity);
+    }
+    return null; // throw new NotFoundException();
+    }
+  
+
+  @Override
+  public UserEntity patchUserWebsite(Long id, String website) {
+    if (id == null || website == null){
+      throw new IllegalArgumentException("");
+      }
+      Optional<UserEntity> userEntity = this.userRepository.findById(id);
+      if (userEntity.isPresent()){
+        UserEntity entity = userEntity.get();
+        entity.setWebsite(website);
+        return this.userRepository.save(entity);
+      }
+      return null; // throw new NotFoundException();
+      }
 }
