@@ -1,4 +1,6 @@
-package com.bootcamp.bc_calculator.exception;
+package com.bootcamp.bc_calculator.model;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +14,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Builder
-public class ErrorResponse {
-  private int code;
+@JsonInclude(JsonInclude.Include.NON_NULL) // null object not show
+public class ApiResponse<T> {
+  private String code;
   private String message;
+  private T data;
 }

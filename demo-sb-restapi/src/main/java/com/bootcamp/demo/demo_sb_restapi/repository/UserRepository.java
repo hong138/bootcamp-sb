@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 
-// Hibernate, JPA
+// Hibernate (Many PL to many DB products), JPA (Java to many DB products)
   // 1. During compile time, the implementation class will be generated for this interface
     // i.e. insert, update, delete, select, etc.
   // 2. Auto-integrate with the diff. product Database driver (maven dependency)
@@ -16,6 +16,8 @@ import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
   // 1. save(): UserEnitity & saveAll()
   // 2. findAll
+
+  // "insert into table values ()";
 }
 
 // !!! Concept of Hibernate

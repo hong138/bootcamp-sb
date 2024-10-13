@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import com.bootcamp.bc_calculator.exception.CannotDivideZeroException;
+import com.bootcamp.bc_calculator.exception.InvalidOperatorException;
 
 import lombok.Getter;
 
@@ -14,14 +15,14 @@ public enum Operation {
   MULTIPLY("mul"),
   DIVIDE("div");
 
-  private String operation;
+  private String operator;
 
-  private Operation(String operation) {
-    this.operation = operation;
+  private Operation(String operator) {
+    this.operator = operator;
   }
 
-  private String calculate(BigDecimal x, BigDecimal y, Operation operation){
-    switch (this){
+  public String calculate(BigDecimal x, BigDecimal y){
+    return switch (this){
       case ADD -> x.add(y).setScale(5).toString();
       case SUBTRACT -> x.subtract(y).setScale(5).toString();
       case MULTIPLY -> x.multiply(y).setScale(5).toString();
@@ -29,10 +30,10 @@ public enum Operation {
         if (y.equals(BigDecimal.ZERO)) {
           throw new CannotDivideZeroException("y cannot be zero");
         }
-        yield x.divide(y).setScale(5).toString();
+        yield x.divide(y, 5, RoundingMode.HALF_UP).toString();
       }
-    default throw new IllegalArgumentException("Invalid operation: " + operation);
-    }
+      default -> throw new InvalidOperatorException("must input + - * /  operator");
+    };
   }
 }
 

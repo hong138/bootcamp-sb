@@ -47,6 +47,11 @@ public class JPHController implements JPHOperation{
   }
 
   @Override
+  public UserEntity patchUserWebsite(Long id, String website) {
+    return this.jphService.patchUserWebsite(id, website);
+  }
+
+  @Override
   public UserEntity createUser(UserEntity userentity) {
     return this.jphService.createUser(userentity);
   }

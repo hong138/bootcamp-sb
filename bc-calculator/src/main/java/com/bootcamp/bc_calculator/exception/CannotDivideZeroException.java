@@ -13,6 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Builder
-public class CannotDivideZeroException extends RuntimeException{
+public class CannotDivideZeroException extends IllegalArgumentException{
   private String message;
 }
