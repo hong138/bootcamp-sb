@@ -1,6 +1,5 @@
 package com.bootcamp.demo.bc_forum.model;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 

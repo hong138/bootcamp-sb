@@ -3,6 +3,7 @@ package com.bootcamp.demo.bc_forum.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.bootcamp.demo.bc_forum.entity.CommentEntity;
+import com.bootcamp.demo.bc_forum.entity.PostEntity;
+import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.exception.JPHRestClientException;
+import com.bootcamp.demo.bc_forum.mapper.UserPostComment;
 import com.bootcamp.demo.bc_forum.model.AllData;
 import com.bootcamp.demo.bc_forum.model.Comments;
 import com.bootcamp.demo.bc_forum.model.Posts;
@@ -195,45 +200,31 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public AllData getAllDataByUser(Long id) {
-    List<UserWithData> usersWithData = new ArrayList<>();
+  public UserPostComment getAllDataByUser(Long id) {
 
-    Users userWithId = getUserById(id);
+    Users user = UserPostComment.getUserById(id);
 
-    if (userWithId != null) {
-        UserWithData userWithData = new UserWithData();
-        userWithData.setId(userWithId.getId());
-        userWithData.setName(userWithId.getName());
-        userWithData.setUsername(userWithId.getUsername());
-        userWithData.setEmail(userWithId.getEmail());
-        userWithData.setAddress(userWithId.getAddress());
-        userWithData.setPhone(userWithId.getPhone());
-        userWithData.setWebsite(userWithId.getWebsite());
-        userWithData.setCompany(userWithId.getCompany());
+    List<Posts> posts = postService.getPostsByUserId(id);
 
-        List<Posts> posts = getPostsById(userWithId.getId());
-        List<PostWithData> postsWithData = new ArrayList<>();
+    List<Comments> comments = commentService.getCommentsByUserId(id);
 
-        for (Posts post : posts) {
-            PostWithData postWithData = new PostWithData();
-            postWithData.setId(post.getId());
-            postWithData.setTitle(post.getTitle());
-            postWithData.setBody(post.getBody());
+    // Map the data to domain objects
+    UserEntity userEntity = UserMapper.map(user);
+    List<PostEntity> postEntities = posts.stream()
+            .map(PostMapper::map)
+            .collect(Collectors.toList());
+    List<CommentEntity> commentEntities = comments.stream()
+            .map(CommentMapper::map)
+            .collect(Collectors.toList());
 
-            List<Comments> comments = getCommentsById(post.getId());
-            postWithData.setComments(comments);
+    // Create and populate the UserPostComment object
+    UserPostComment userPostComment = new UserPostComment();
+    userPostComment.setUser(userEntity);
+    userPostComment.setPosts(postEntities);
+    userPostComment.setComments(commentEntities);
 
-            postsWithData.add(postWithData);
-        }
-
-        userWithData.setPosts(postsWithData);
-        usersWithData.add(userWithData);
-    }
-
-    AllData allData = new AllData();
-    allData.setUsers(usersWithData);
-
-    return allData;
-}
+    return userPostComment;
+ 
+  }
 
 }

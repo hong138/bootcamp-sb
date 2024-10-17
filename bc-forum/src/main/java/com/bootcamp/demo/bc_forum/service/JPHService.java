@@ -1,7 +1,8 @@
 package com.bootcamp.demo.bc_forum.service;
 
 import java.util.List;
-import com.bootcamp.demo.bc_forum.model.AllData;
+
+import com.bootcamp.demo.bc_forum.mapper.UserPostComment;
 import com.bootcamp.demo.bc_forum.model.Comments;
 import com.bootcamp.demo.bc_forum.model.Posts;
 import com.bootcamp.demo.bc_forum.model.Users;
@@ -16,5 +17,5 @@ public interface JPHService {
   List<Comments> getComments();
   List<Comments> getCommentsById(Long Id);
   List<Comments> getCommentsByUserId(Long userId);
-  AllData getAllDataByUser(Long id);
+  UserPostComment getAllDataByUser(Long id);
 }
