@@ -31,4 +31,5 @@ public interface DatabaseOperation {
   // @PutMapping -> SQL: update
   // @GetMapping -> SQL: select
   // @PostMapping -> SQL: insert into
+  // @PatchMapping -> SQL: update
 }

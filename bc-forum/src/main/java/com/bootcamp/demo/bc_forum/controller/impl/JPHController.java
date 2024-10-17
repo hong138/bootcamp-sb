@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bootcamp.demo.bc_forum.controller.JPHOperation;
 import com.bootcamp.demo.bc_forum.model.AllData;
-import com.bootcamp.demo.bc_forum.model.Comments;
-import com.bootcamp.demo.bc_forum.model.Posts;
-import com.bootcamp.demo.bc_forum.model.Users;
+import com.bootcamp.demo.bc_forum.model.CommentDTO;
+import com.bootcamp.demo.bc_forum.model.PostDTO;
+import com.bootcamp.demo.bc_forum.model.UserDTO;
 import com.bootcamp.demo.bc_forum.service.JPHService;
 
 @RestController
@@ -26,36 +26,36 @@ public class JPHController implements JPHOperation {
   // --------------------------------------
 
   @Override
-  public List<Users> getUsers() {
+  public List<UserDTO> getUsers() {
     return this.jphService.getUsers();
   }
 
   @Override
-  public Users getUserById(Long id) {
+  public UserDTO getUserById(Long id) {
     return this.jphService.getUserById(id);
   }
 
   // --------------------------------------
 
   @Override
-  public Users replaceUser (Long id, Users user) {
+  public UserDTO replaceUser (Long id, UserDTO user) {
     return this.jphService.replaceUser(id, user);
   }
 
   // --------------------------------------
 
   @Override
-  public List<Posts> getPosts() {
+  public List<PostDTO> getPosts() {
     return this.jphService.getPosts();
   }
 
   @Override
-  public List<Posts> getPostsByUserId(Long userId) {
+  public List<PostDTO> getPostsByUserId(Long userId) {
     return this.jphService.getPostsByUserId(userId);
   }
 
   @Override
-  public Posts addPostByUserId(Long userId, Posts post) {
+  public PostDTO addPostByUserId(Long userId, PostDTO post) {
     return this.jphService.addPostByUserId(userId, post);
   }
 
@@ -67,22 +67,22 @@ public class JPHController implements JPHOperation {
   // --------------------------------------
 
   @Override
-  public List<Comments> getComments() {
+  public List<CommentDTO> getComments() {
     return this.jphService.getComments();
   }
 
   @Override
-  public List<Comments> getCommentsByPostId(Long postId) {
+  public List<CommentDTO> getCommentsByPostId(Long postId) {
     return this.jphService.getCommentsByPostId(postId);
   }
 
   @Override
-  public Comments addCommentByPostId(Long postId, Comments comment) {
+  public CommentDTO addCommentByPostId(Long postId, CommentDTO comment) {
     return this.jphService.addCommentByPostId(postId, comment);
   }
 
   @Override
-  public Comments updateCommentByCommentId(Long commentId, Comments comment) {
+  public CommentDTO updateCommentByCommentId(Long commentId, CommentDTO comment) {
     return this.jphService.updateCommentByCommentId(commentId, comment);
   }
 

@@ -1,28 +1,21 @@
 package com.bootcamp.demo.bc_forum.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.bootcamp.demo.bc_forum.entity.CommentEntity;
-import com.bootcamp.demo.bc_forum.entity.PostEntity;
-import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.exception.JPHRestClientException;
-import com.bootcamp.demo.bc_forum.mapper.UserPostComment;
+import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
 import com.bootcamp.demo.bc_forum.model.AllData;
-import com.bootcamp.demo.bc_forum.model.Comments;
-import com.bootcamp.demo.bc_forum.model.Posts;
-import com.bootcamp.demo.bc_forum.model.Users;
-import com.bootcamp.demo.bc_forum.model.WithData.PostWithData;
-import com.bootcamp.demo.bc_forum.model.WithData.UserWithData;
+import com.bootcamp.demo.bc_forum.model.CommentDTO;
+import com.bootcamp.demo.bc_forum.model.PostDTO;
+import com.bootcamp.demo.bc_forum.model.UserDTO;
+import com.bootcamp.demo.bc_forum.repository.UserRepository;
 import com.bootcamp.demo.bc_forum.service.JPHService;
 import com.bootcamp.demo.bc_forum.util.Scheme;
 
@@ -31,6 +24,12 @@ public class JPHServiceImpl implements JPHService{
   @Autowired
   @Qualifier(value = "JPHRestTemplate")
   private RestTemplate restTemplate;
+
+  @Autowired
+  private UserRepository userRepository;
+
+  @Autowired
+  private JPHMapper jphMapper;
 
   @Value("${api.jph.domain}")
   private String jphDomain;
@@ -45,81 +44,39 @@ public class JPHServiceImpl implements JPHService{
   private String commentsEndpoint;
 
   @Override
-  public List<Users> getUsers() {
+  public List<UserDTO> getUsers() {
   String url = UriComponentsBuilder.newInstance()
               .scheme(Scheme.HTTPS.name().toLowerCase())
               .host(jphDomain)
               .path(usersEndpoint)
               .toUriString();
 
-  Users[] users;
+  UserDTO[] users;
     try{
-      users = restTemplate.getForObject(url, Users[].class);
+      users = restTemplate.getForObject(url, UserDTO[].class);
     } catch (RestClientException e) {
       throw new JPHRestClientException("Json Placeholder Exception.");
     }
       return List.of(users);
     }
 
-    @Override
-    public List<UserWithData> getUsersWithData() {
-      List<UserWithData> usersWithData = new ArrayList<>();
-  
-      List<Users> users = getUsers();
-  
-      for (Users user : users) {
-          UserWithData userWithData = new UserWithData();
-          userWithData.setId(user.getId());
-          userWithData.setName(user.getName());
-          userWithData.setUsername(user.getUsername());
-          userWithData.setEmail(user.getEmail());
-          userWithData.setAddress(user.getAddress());
-          userWithData.setPhone(user.getPhone());
-          userWithData.setWebsite(user.getWebsite());
-          userWithData.setCompany(user.getCompany());
-  
-          List<Posts> posts = getPostsById(user.getId());
-          List<PostWithData> postsWithData = new ArrayList<>();
-  
-          for (Posts post : posts) {
-              PostWithData postWithData = new PostWithData();
-              postWithData.setId(post.getId());
-              postWithData.setTitle(post.getTitle());
-              postWithData.setBody(post.getBody());
-  
-              List<Comments> comments = getCommentsById(post.getId());
-              postWithData.setComments(comments);
-  
-              postsWithData.add(postWithData);
-          }
-  
-          userWithData.setPosts(postsWithData);
-          usersWithData.add(userWithData);
-      }
-  
-      return usersWithData;
-    }
+  @Override
+  public UserDTO getUserById(Long id){}
 
   @Override
-  public Users getUserById(Long id) {
-    List<Users> allUsers = getUsers();
-      return allUsers.stream()
-            .filter(user -> user.getId() == id)
-            .findFirst()
-            .orElse(null);
-  }
+  public UserDTO replaceUser(Long id, UserDTO user){}
 
   @Override
-  public List<Posts> getPosts() {
+  public List<PostDTO> getPosts() {
     String url = UriComponentsBuilder.newInstance()
                 .scheme(Scheme.HTTPS.name().toLowerCase())
                 .host(jphDomain)
                 .path(usersEndpoint)
                 .toUriString();
 
-  Posts[] posts;
+  PostDTO[] posts;
     try{
-      posts = restTemplate.getForObject(url, Posts[].class);
+      posts = restTemplate.getForObject(url, PostDTO[].class);
     } catch (RestClientException e) {
       throw new JPHRestClientException("Json Placeholder Exception.");
     }
@@ -127,34 +84,25 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public List<Posts> getPostsById(Long Id) {
-    String url = UriComponentsBuilder.newInstance()
-                .scheme(Scheme.HTTPS.name().toLowerCase())
-                .host(jphDomain)
-                .path(postsEndpoint)
-                .queryParam("userId", Id)
-                .toUriString();
-
-    Posts[] posts;
-      try {
-        posts = restTemplate.getForObject(url, Posts[].class);
-      } catch (RestClientException e) {
-        throw new JPHRestClientException("Json Placeholder Exception.");
-      }
-      return posts != null ? Arrays.asList(posts) : Collections.emptyList();
-    }
+  public List<PostDTO> getPostsByUserId(Long userId){}
 
   @Override
-  public List<Comments> getComments() {
+  public PostDTO addPostByUserId(Long userId, PostDTO post){}
+
+  @Override
+  public void deletePostByPostId(Long userId){}
+
+  @Override
+  public List<CommentDTO> getComments() {
     String url = UriComponentsBuilder.newInstance()
                 .scheme(Scheme.HTTPS.name().toLowerCase())
                 .host(jphDomain)
                 .path(usersEndpoint)
                 .toUriString();
 
-    Comments[] comments;
+    CommentDTO[] comments;
       try{
-        comments = restTemplate.getForObject(url, Comments[].class);
+        comments = restTemplate.getForObject(url, CommentDTO[].class);
       } catch (RestClientException e) {
         throw new JPHRestClientException("Json Placeholder Exception.");
       }
@@ -162,69 +110,16 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public List<Comments> getCommentsById(Long Id) {
-    String url = UriComponentsBuilder.newInstance()
-                .scheme(Scheme.HTTPS.name().toLowerCase())
-                .host(jphDomain)
-                .path(commentsEndpoint)
-                .queryParam("postId", Id)
-                .toUriString();
-
-    Comments[] comments;
-    try {
-      comments = restTemplate.getForObject(url, Comments[].class);
-    } catch (RestClientException e) {
-      throw new JPHRestClientException("Json Placeholder Exception.");
-    }
-      return comments != null ? Arrays.asList(comments) : Collections.emptyList();
-    }
-
-    @Override
-    public List<Comments> getCommentsByUserId(Long userId) {
-      List<Comments> comments = new ArrayList<>();
-      // List<Users> users = getUsers();
-      List<UserWithData> users = getUsersWithData();
-
-      if (users != null) {
-          for (UserWithData user : users) {
-              if (user.getId().equals(userId)) {
-                  for (PostWithData post : user.getPosts()) {
-                      comments.addAll(post.getComments());
-                  }
-                  break;
-              }
-          }
-      }
-      
-      return comments;
-    }
+  public List<CommentDTO> getCommentsByPostId(Long postId){}
 
   @Override
-  public UserPostComment getAllDataByUser(Long id) {
+  public CommentDTO addCommentByPostId(Long postId, CommentDTO comment){}
 
-    Users user = UserPostComment.getUserById(id);
+  @Override
+  public CommentDTO updateCommentByCommentId(Long commentId, CommentDTO comment){}
 
-    List<Posts> posts = postService.getPostsByUserId(id);
+  @Override
+  public AllData getAllDataByUser(Long id){}
 
-    List<Comments> comments = commentService.getCommentsByUserId(id);
-
-    // Map the data to domain objects
-    UserEntity userEntity = UserMapper.map(user);
-    List<PostEntity> postEntities = posts.stream()
-            .map(PostMapper::map)
-            .collect(Collectors.toList());
-    List<CommentEntity> commentEntities = comments.stream()
-            .map(CommentMapper::map)
-            .collect(Collectors.toList());
-
-    // Create and populate the UserPostComment object
-    UserPostComment userPostComment = new UserPostComment();
-    userPostComment.setUser(userEntity);
-    userPostComment.setPosts(postEntities);
-    userPostComment.setComments(commentEntities);
-
-    return userPostComment;
- 
-  }
 
 }

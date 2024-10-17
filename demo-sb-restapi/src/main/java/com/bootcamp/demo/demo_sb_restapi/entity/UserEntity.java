@@ -1,5 +1,6 @@
 package com.bootcamp.demo.demo_sb_restapi.entity;
 
+import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity implements Serializable{
   @Id // Primary Key
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.RestClientException;
 
+// ! Java: A -> B -> C, if C throw, the state will be back to B
+// ! Web layer -> Controller -> Service(throw) -> Exception Handler -> Web layer
+// ! Advantages: Approprivate for General Exception Handling (i.e. NPE)
+// By default Catch Child Exception first, then parent exception
 @RestControllerAdvice
 public class GlobalExceptionalHandler {
   

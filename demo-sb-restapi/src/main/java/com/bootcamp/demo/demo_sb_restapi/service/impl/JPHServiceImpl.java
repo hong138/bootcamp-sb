@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,6 +15,8 @@ import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.exception.JPHRestClientException;
 import com.bootcamp.demo.demo_sb_restapi.mapper.JPHMapper;
 import com.bootcamp.demo.demo_sb_restapi.model.Cat;
+import com.bootcamp.demo.demo_sb_restapi.model.dto.CommentDTO;
+import com.bootcamp.demo.demo_sb_restapi.model.dto.PostDTO;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.UserDTO;
 import com.bootcamp.demo.demo_sb_restapi.repository.UserRepository;
 import com.bootcamp.demo.demo_sb_restapi.service.JPHService;
@@ -27,7 +28,7 @@ public class JPHServiceImpl implements JPHService {
 
   @Autowired
   @Qualifier(value = "JPHRestTemplate") // inject bean by specifc bean name
-  private RestTemplate restTemplateForJPH;
+  private RestTemplate restTemplate;
 
   @Autowired
   private Cat cat;
@@ -41,16 +42,22 @@ public class JPHServiceImpl implements JPHService {
   // !!! @Value (inject from yml) is similar to @Autowired (inject from Spring Context)
   // both of them has to be executed before server start
   @Value("${api.jph.domain}")
-  private String jphdomain;
+  private String jphDomain;
 
-  @Value("${api.jph.domain}")
+  @Value("${api.jph.endpoints.users}")
   private String usersEndpoint;
+
+  @Value("${api.jph.endpoints.posts}")
+  private String postsEndpoint;
+
+  @Value("${api.jph.endpoints.comments}")
+  private String commentsEndpoint;
 
   @Override
   public List<UserDTO> getUsers() {
     String url = Url.builder()
                  .scheme(Scheme.HTTPS)
-                 .domain(this.jphdomain)
+                 .domain(this.jphDomain)
                  .endpoint(this.usersEndpoint)
                  .build()
                  .toUriString();
@@ -59,7 +66,7 @@ public class JPHServiceImpl implements JPHService {
     UserDTO[] users;
 
     try {
-      users = this.restTemplateForJPH.getForObject(url, UserDTO[].class);
+      users = this.restTemplate.getForObject(url, UserDTO[].class);
     } catch (RestClientException e) {
       throw new JPHRestClientException("Json Placeholder Exception");
     }
@@ -124,4 +131,47 @@ public class JPHServiceImpl implements JPHService {
     return this.userRepository.save(userentity);
   }
 
+  @Override
+  public Optional<UserEntity> findByWebsite(String website){
+    return this.userRepository.findByWebsite(website);
+  }
+
+  @Override
+  public Optional<UserEntity> findByWebsiteAndPhone(String website, String phone){
+    return this.userRepository.findByWebsiteAndPhone(website, phone);
+  }
+
+  @Override
+  public List<PostDTO> getPosts() {
+    String url = Url.builder() //
+        .scheme(Scheme.HTTPS) //
+        .domain(this.jphDomain) //
+        .endpoint(this.postsEndpoint) //
+        .build() //
+        .toUriString();
+    PostDTO[] posts;
+    try {
+      posts = this.restTemplate.getForObject(url, PostDTO[].class);
+    } catch (RestClientException e) {
+      throw new JPHRestClientException("Json Placeholder Exception.");
+    }
+    return List.of(posts);
+  }
+
+  @Override
+  public List<CommentDTO> getComments() {
+    String url = Url.builder() //
+        .scheme(Scheme.HTTPS) //
+        .domain(this.jphDomain) //
+        .endpoint(this.commentsEndpoint) //
+        .build() //
+        .toUriString();
+    CommentDTO[] comments;
+    try {
+      comments = this.restTemplate.getForObject(url, CommentDTO[].class);
+    } catch (RestClientException e) {
+      throw new JPHRestClientException("Json Placeholder Exception.");
+    }
+    return List.of(comments);
+  }
 }

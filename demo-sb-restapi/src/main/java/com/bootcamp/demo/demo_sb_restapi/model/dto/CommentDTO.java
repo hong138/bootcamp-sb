@@ -1,12 +1,10 @@
-package com.bootcamp.demo.bc_forum.model;
+package com.bootcamp.demo.demo_sb_restapi.model.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class Comments {
-  public int postId;
+public class CommentDTO {
+  public Long postId;
   public Long id;
   public String name;
   public String email;

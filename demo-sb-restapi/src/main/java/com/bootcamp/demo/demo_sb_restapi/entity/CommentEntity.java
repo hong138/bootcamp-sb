@@ -1,4 +1,4 @@
-package com.bootcamp.demo.bc_forum.entity;
+package com.bootcamp.demo.demo_sb_restapi.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentEntity {
-  @Id // Primary Key
+  @Id 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;

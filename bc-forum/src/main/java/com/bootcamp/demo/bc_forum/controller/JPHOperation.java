@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.bootcamp.demo.bc_forum.model.AllData;
-import com.bootcamp.demo.bc_forum.model.Comments;
-import com.bootcamp.demo.bc_forum.model.Posts;
-import com.bootcamp.demo.bc_forum.model.Users;
+import com.bootcamp.demo.bc_forum.model.CommentDTO;
+import com.bootcamp.demo.bc_forum.model.PostDTO;
+import com.bootcamp.demo.bc_forum.model.UserDTO;
 
 public interface JPHOperation {
 
   @GetMapping("/jph/users") // Get all users
-  List<Users> getUsers();
+  List<UserDTO> getUsers();
 
   @GetMapping("/jph/users/{id}") // Get user by id
-  Users getUserById(@PathVariable Long id);
+  UserDTO getUserById(@PathVariable Long id);
 
   // --------------------------------------
 
   @PutMapping("/jph/users/{id}") // Replace existing user by a whole user object
-  Users replaceUser(@PathVariable Long id, Users user);
+  UserDTO replaceUser(@PathVariable Long id, UserDTO user);
 
   // --------------------------------------
 
   @GetMapping("/jph/posts") // Get all posts
-  List<Posts> getPosts();
+  List<PostDTO> getPosts();
 
   @GetMapping("/jph/posts/{userId}")
-  List<Posts> getPostsByUserId(@PathVariable Long userId);
+  List<PostDTO> getPostsByUserId(@PathVariable Long userId);
 
   @PostMapping("/jph/posts/{userId}") // Add a new post by user id
-  Posts addPostByUserId(@PathVariable Long userId, Posts post);
+  PostDTO addPostByUserId(@PathVariable Long userId, PostDTO post);
 
   @DeleteMapping("/jph/posts/{postId}") // Delete a post by postId
   void deletePostByPostId(@PathVariable Long postId);
@@ -44,16 +44,16 @@ public interface JPHOperation {
   // --------------------------------------
 
   @GetMapping("/jph/comments")
-  List<Comments> getComments();
+  List<CommentDTO> getComments();
 
   @GetMapping("/jph/comments/{postId}") // Get comments by postId
-  List<Comments> getCommentsByPostId(@PathVariable Long postId);
+  List<CommentDTO> getCommentsByPostId(@PathVariable Long postId);
 
   @PostMapping("/jph/comments/{postId}") // Add a new comment by postId
-  Comments addCommentByPostId(@PathVariable Long postId, Comments comment);
+  CommentDTO addCommentByPostId(@PathVariable Long postId, CommentDTO comment);
 
   @PatchMapping("/jph/comments/{commentId}") // Update a comment body by commentId
-  Comments updateCommentByCommentId(@PathVariable Long commentId, Comments comment);
+  CommentDTO updateCommentByCommentId(@PathVariable Long commentId, CommentDTO comment);
   
   // --------------------------------------
 

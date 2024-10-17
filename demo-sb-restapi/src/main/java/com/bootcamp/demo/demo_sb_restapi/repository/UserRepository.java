@@ -1,5 +1,7 @@
 package com.bootcamp.demo.demo_sb_restapi.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,12 @@ import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
   // 1. save(): UserEnitity & saveAll()
   // 2. findAll
+  // 3. deleteById
+
+  // ! JPA (Java method name to generate code to interact with DB by Hibernate)
+  Optional<UserEntity> findByWebsite(String website);
+
+  Optional<UserEntity> findByWebsiteAndPhone(String website, String phone);
 
   // "insert into table values ()";
 }
