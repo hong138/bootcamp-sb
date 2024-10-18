@@ -9,55 +9,59 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import com.bootcamp.demo.bc_forum.model.AllData;
+import com.bootcamp.demo.bc_forum.dto.AllData;
+import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
 
 public interface JPHOperation {
 
-  @GetMapping("/jph/users") // Get all users
+  @GetMapping("/jph/users") // (E3 T3 User a) Get all users 
   List<UserDTO> getUsers();
 
-  @GetMapping("/jph/users/{id}") // Get user by id
+  @GetMapping("/jph/users/{id}") // (E3 T3 User b) Get user by id 
   UserDTO getUserById(@PathVariable Long id);
 
   // --------------------------------------
 
-  @PutMapping("/jph/users/{id}") // Replace existing user by a whole user object
+  @PutMapping("/jph/users/{id}") // !!! (E3 T3 User put a) Replace existing user by a whole user object
   UserDTO replaceUser(@PathVariable Long id, UserDTO user);
 
   // --------------------------------------
 
-  @GetMapping("/jph/posts") // Get all posts
+  @GetMapping("/jph/posts") // (E3 T3 Post a) Get all posts
   List<PostDTO> getPosts();
 
-  @GetMapping("/jph/posts/{userId}")
+  @GetMapping("/jph/posts/{userId}") // (E3 T3 Post b)
   List<PostDTO> getPostsByUserId(@PathVariable Long userId);
 
-  @PostMapping("/jph/posts/{userId}") // Add a new post by user id
+  @PostMapping("/jph/posts/{userId}") // !!! (E3 T3 Post c) Add a new post by user id
   PostDTO addPostByUserId(@PathVariable Long userId, PostDTO post);
 
-  @DeleteMapping("/jph/posts/{postId}") // Delete a post by postId
+  @DeleteMapping("/jph/posts/{postId}") // !!! (E3 T3 Post d) Delete a post by postId
   void deletePostByPostId(@PathVariable Long postId);
 
   // --------------------------------------
 
-  @GetMapping("/jph/comments")
+  @GetMapping("/jph/comments") // (E3 T3 Comment a)
   List<CommentDTO> getComments();
 
-  @GetMapping("/jph/comments/{postId}") // Get comments by postId
+  @GetMapping("/jph/comments/{postId}") // (E3 T3 Comment b) Get comments by postId
   List<CommentDTO> getCommentsByPostId(@PathVariable Long postId);
 
-  @PostMapping("/jph/comments/{postId}") // Add a new comment by postId
+  @GetMapping("/jph/{userId}/comments")
+  UserCommentDTO getCommentsByUserId(@PathVariable String userId);
+
+  @PostMapping("/jph/comments/{postId}") // !!! (E3 T3 Comment c) Add a new comment by postId
   CommentDTO addCommentByPostId(@PathVariable Long postId, CommentDTO comment);
 
-  @PatchMapping("/jph/comments/{commentId}") // Update a comment body by commentId
+  @PatchMapping("/jph/comments/{commentId}") // !!! (E3 T3 Comment d) Update a comment body by commentId
   CommentDTO updateCommentByCommentId(@PathVariable Long commentId, CommentDTO comment);
   
   // --------------------------------------
 
-  // @GetMapping("/jph/all/{id}")
-  // AllData getAllDataByUser(@PathVariable Long id);
+  @GetMapping("/jph/all")
+  List<AllData> getAllData();
 
 }

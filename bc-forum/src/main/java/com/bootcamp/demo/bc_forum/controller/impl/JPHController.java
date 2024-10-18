@@ -1,18 +1,20 @@
 package com.bootcamp.demo.bc_forum.controller.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bootcamp.demo.bc_forum.controller.JPHOperation;
-import com.bootcamp.demo.bc_forum.model.AllData;
+import com.bootcamp.demo.bc_forum.dto.AllData;
+import com.bootcamp.demo.bc_forum.dto.AllData.PostDto;
+import com.bootcamp.demo.bc_forum.dto.AllData.PostDto.CommentDto;
+import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
+import com.bootcamp.demo.bc_forum.exception.BusinessException;
+import com.bootcamp.demo.bc_forum.exception.ErrorCode;
+import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -22,6 +24,9 @@ import com.bootcamp.demo.bc_forum.service.JPHService;
 public class JPHController implements JPHOperation {
   @Autowired
   private JPHService jphService;
+
+  @Autowired
+  private JPHMapper jphMapper;
 
   // --------------------------------------
 
@@ -88,9 +93,54 @@ public class JPHController implements JPHOperation {
 
   // --------------------------------------
 
-  // @Override
-  // public AllData getAllDataByUser(Long id) {
-  //   return this.jphService.getAllDataByUser(id);
+  @Override
+  public List<AllData> getAllData() {
+    List<UserDTO> usersData = this.jphService.getUsers();
+    List<PostDTO> postsData = this.jphService.getPosts();
+    List<CommentDTO> commentsData = this.jphService.getComments();
+    return usersData.stream() 
+        .map(u -> {
+          List<PostDto> postDtos = postsData.stream() 
+              .filter(p -> p.getUserId() == u.getId()) 
+              .map(p -> {
+                List<CommentDto> commentDtos = commentsData.stream() 
+                    .filter(c -> c.getPostId() == p.getId()) 
+                    .map(c -> this.jphMapper.map(c)) 
+                    .collect(Collectors.toList());
+                return this.jphMapper.map(p, commentDtos);
+              }).collect(Collectors.toList());
+          return this.jphMapper.map(u, postDtos);
+        }).collect(Collectors.toList());
+  }
 
-  // }
+  @Override
+  public UserCommentDTO getCommentsByUserId(String userId) {
+    Long uid;
+    try {
+      uid = Long.valueOf(userId);
+    } catch (NumberFormatException e) {
+      throw BusinessException.of(ErrorCode.INV_INPUT_EX);
+    }
+    List<UserDTO> usersData = this.jphService.getUsers();
+    Optional<UserDTO> oUser = usersData.stream() //
+        .filter(u -> u.getId().equals(uid)) //
+        .findAny();
+    if (!oUser.isPresent())
+      throw BusinessException.of(ErrorCode.USER_NOT_FOUND_EX);
+
+    List<PostDTO> postsData = this.jphService.getPosts();
+    List<CommentDTO> commentsData = this.jphService.getComments();
+
+    List<UserCommentDTO.CommentDto> comments = postsData.stream() 
+            .filter(p -> p.getId().equals(uid)) 
+            .flatMap(p -> commentsData.stream()
+            .filter(c -> c.getPostId().equals(p.getId()))
+            .map(c -> this.jphMapper.map2(c)))
+            .collect(Collectors.toList());
+    return UserCommentDTO.builder() 
+          .userId(oUser.get().getId()) 
+          .username(oUser.get().getUsername()) 
+          .comments(comments) 
+          .build();
+  }
 }

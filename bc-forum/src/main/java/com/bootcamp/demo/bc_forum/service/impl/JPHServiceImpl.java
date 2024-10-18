@@ -1,21 +1,17 @@
 package com.bootcamp.demo.bc_forum.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import com.bootcamp.demo.bc_forum.exception.JPHRestClientException;
 import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
-import com.bootcamp.demo.bc_forum.model.AllData;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -109,19 +105,14 @@ public class JPHServiceImpl implements JPHService{
     String url = UriComponentsBuilder.newInstance()
             .scheme(Scheme.HTTPS.name().toLowerCase())
             .host(jphDomain)
-            .path(postsEndpoint + "/" + userId)
+            .path(usersEndpoint + "/" + userId + "/posts")
             .toUriString();
 
-    ResponseEntity<PostDTO[]> response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            null,
-            PostDTO[].class
-    );
 
-    List<PostDTO> posts = new ArrayList<>(Arrays.asList(response.getBody()));
-    return posts;
+    PostDTO[] posts = restTemplate.getForObject(url, PostDTO[].class);
+    return List.of(posts);
   }
+
 
   @Override
   public PostDTO addPostByUserId(Long userId, PostDTO post){
@@ -150,7 +141,7 @@ public class JPHServiceImpl implements JPHService{
     String url = UriComponentsBuilder.newInstance()
                 .scheme(Scheme.HTTPS.name().toLowerCase())
                 .host(jphDomain)
-                .path(usersEndpoint)
+                .path(commentsEndpoint)
                 .toUriString();
 
     CommentDTO[] comments;
@@ -185,6 +176,7 @@ public class JPHServiceImpl implements JPHService{
     return restTemplate.postForObject(url, comment, CommentDTO.class);
   }
 
+
   @Override
   public CommentDTO updateCommentByCommentId(Long commentId, CommentDTO comment){
     String url = UriComponentsBuilder.newInstance()
@@ -196,9 +188,6 @@ public class JPHServiceImpl implements JPHService{
     restTemplate.put(url, comment);
     return comment;
   }
-
-  // @Override
-  // public AllData getAllDataByUser(Long id){}
 
 
 }

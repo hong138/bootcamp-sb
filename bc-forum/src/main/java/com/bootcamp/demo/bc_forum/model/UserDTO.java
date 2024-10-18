@@ -1,14 +1,8 @@
 package com.bootcamp.demo.bc_forum.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDTO {
   private Long id;
   private String name;
@@ -20,8 +14,6 @@ public class UserDTO {
   private Company company;
 
   @Getter
-  @AllArgsConstructor
-  @NoArgsConstructor
   public static class Address {
     private String street;
     private String suite;
@@ -30,8 +22,6 @@ public class UserDTO {
     private Geo geo;
 
     @Getter
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Geo {
       private String lat;
       private String lng;
@@ -39,8 +29,6 @@ public class UserDTO {
   }
 
   @Getter
-  @AllArgsConstructor
-  @NoArgsConstructor
   public static class Company {
     private String name;
     private String catchPhrase;
