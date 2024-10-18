@@ -22,6 +22,6 @@ public interface JPHService {
   CommentDTO addCommentByPostId(@PathVariable Long postId, CommentDTO comment);
   CommentDTO updateCommentByCommentId(@PathVariable Long commentId, CommentDTO comment);
   // --------------------------------------
-  AllData getAllDataByUser(@PathVariable Long id);
+  // AllData getAllDataByUser(@PathVariable Long id);
 
 }

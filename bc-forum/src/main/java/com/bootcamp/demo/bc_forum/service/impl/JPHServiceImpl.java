@@ -1,9 +1,13 @@
 package com.bootcamp.demo.bc_forum.service.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestClientException;
@@ -61,17 +65,34 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public UserDTO getUserById(Long id){}
+  public UserDTO getUserById(Long id){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(usersEndpoint + "/" + id)
+            .toUriString();
+
+    return restTemplate.getForObject(url, UserDTO.class);
+  }
 
   @Override
-  public UserDTO replaceUser(Long id, UserDTO user){}
+  public UserDTO replaceUser(Long id, UserDTO user){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(usersEndpoint + "/" + id)
+            .toUriString();
+
+    restTemplate.put(url, user);
+    return user;
+  } 
 
   @Override
   public List<PostDTO> getPosts() {
     String url = UriComponentsBuilder.newInstance()
                 .scheme(Scheme.HTTPS.name().toLowerCase())
                 .host(jphDomain)
-                .path(usersEndpoint)
+                .path(postsEndpoint)
                 .toUriString();
 
   PostDTO[] posts;
@@ -84,13 +105,45 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public List<PostDTO> getPostsByUserId(Long userId){}
+  public List<PostDTO> getPostsByUserId(Long userId){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(postsEndpoint + "/" + userId)
+            .toUriString();
+
+    ResponseEntity<PostDTO[]> response = restTemplate.exchange(
+            url,
+            HttpMethod.GET,
+            null,
+            PostDTO[].class
+    );
+
+    List<PostDTO> posts = new ArrayList<>(Arrays.asList(response.getBody()));
+    return posts;
+  }
 
   @Override
-  public PostDTO addPostByUserId(Long userId, PostDTO post){}
+  public PostDTO addPostByUserId(Long userId, PostDTO post){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(postsEndpoint)
+            .toUriString();
+
+    return restTemplate.postForObject(url, post, PostDTO.class);
+  }
 
   @Override
-  public void deletePostByPostId(Long userId){}
+  public void deletePostByPostId(Long postId){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(postsEndpoint + "/" + postId)
+            .toUriString();
+
+    restTemplate.delete(url);
+  }
 
   @Override
   public List<CommentDTO> getComments() {
@@ -110,16 +163,42 @@ public class JPHServiceImpl implements JPHService{
     }
 
   @Override
-  public List<CommentDTO> getCommentsByPostId(Long postId){}
+  public List<CommentDTO> getCommentsByPostId(Long postId){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(postsEndpoint + "/" + postId + "/comments")
+            .toUriString();
+
+    CommentDTO[] comments = restTemplate.getForObject(url, CommentDTO[].class);
+    return List.of(comments);
+  }
 
   @Override
-  public CommentDTO addCommentByPostId(Long postId, CommentDTO comment){}
+  public CommentDTO addCommentByPostId(Long postId, CommentDTO comment){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(postsEndpoint + "/" + postId + "/comments")
+            .toUriString();
+
+    return restTemplate.postForObject(url, comment, CommentDTO.class);
+  }
 
   @Override
-  public CommentDTO updateCommentByCommentId(Long commentId, CommentDTO comment){}
+  public CommentDTO updateCommentByCommentId(Long commentId, CommentDTO comment){
+    String url = UriComponentsBuilder.newInstance()
+            .scheme(Scheme.HTTPS.name().toLowerCase())
+            .host(jphDomain)
+            .path(commentsEndpoint + "/" + commentId)
+            .toUriString();
 
-  @Override
-  public AllData getAllDataByUser(Long id){}
+    restTemplate.put(url, comment);
+    return comment;
+  }
+
+  // @Override
+  // public AllData getAllDataByUser(Long id){}
 
 
 }

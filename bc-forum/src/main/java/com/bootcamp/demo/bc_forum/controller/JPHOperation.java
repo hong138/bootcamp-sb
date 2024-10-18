@@ -57,9 +57,7 @@ public interface JPHOperation {
   
   // --------------------------------------
 
-  @GetMapping("/jph/all/{id}")
-  AllData getAllDataByUser(@PathVariable Long id);
+  // @GetMapping("/jph/all/{id}")
+  // AllData getAllDataByUser(@PathVariable Long id);
 
-  // @GetMapping("/jph/comments")
-  // List<Comments> getCommentsByUserId(@RequestParam Long userId);
 }

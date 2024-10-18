@@ -88,13 +88,9 @@ public class JPHController implements JPHOperation {
 
   // --------------------------------------
 
-  @Override
-  public AllData getAllDataByUser(Long id) {
-    return this.jphService.getAllDataByUser(id);
-
   // @Override
-  // public List<Comments> getCommentsByUserId(Long userId) {
-  //   return this.jphService.getCommentsByUserId(userId);
-  //   }
-  }
+  // public AllData getAllDataByUser(Long id) {
+  //   return this.jphService.getAllDataByUser(id);
+
+  // }
 }

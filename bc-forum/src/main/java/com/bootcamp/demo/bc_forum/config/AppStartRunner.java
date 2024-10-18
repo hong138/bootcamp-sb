@@ -12,11 +12,15 @@ import com.bootcamp.demo.bc_forum.entity.PostEntity;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.service.JPHService;
+import com.bootcamp.demo.bc_forum.service.PostService;
 
 @Component
 public class AppStartRunner implements CommandLineRunner {
   @Autowired
   private JPHService jphService;
+
+  @Autowired
+  private PostService postService;
   
   @Override
   public void run(String... args) throws Exception {
