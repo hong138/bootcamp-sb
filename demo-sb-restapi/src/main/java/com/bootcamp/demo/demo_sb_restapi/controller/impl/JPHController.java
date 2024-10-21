@@ -3,9 +3,11 @@ package com.bootcamp.demo.demo_sb_restapi.controller.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bootcamp.demo.demo_sb_restapi.controller.JPHOperation;
+import com.bootcamp.demo.demo_sb_restapi.entity.PostEntity;
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.UserDTO;
 import com.bootcamp.demo.demo_sb_restapi.service.JPHService;
@@ -37,8 +39,8 @@ public class JPHController implements JPHOperation{
   }
 
   @Override
-  public Boolean deleteUsers(Long id) {
-    return this.jphService.deleteUser(id);
+  public Boolean deleteUser(Long id) {
+    return this.jphService.deleteUser(id); // Junit ?
   }
 
   @Override
@@ -52,18 +54,24 @@ public class JPHController implements JPHOperation{
   }
 
   @Override
-  public UserEntity createUser(UserEntity userentity) {
-    return this.jphService.createUser(userentity);
+  public UserEntity createUser(UserEntity userEntity) {
+    return this.jphService.createUser(userEntity);
   }
 
   @Override
   public UserEntity getUserByWebsite(String website) {
     return this.jphService.findByWebsite(website).orElse(null);
+  
   }
 
   @Override
   public UserEntity getUserByWebsiteAndPhone(String website, String phone) {  
     return this.jphService.findByWebsiteAndPhone(website, phone).orElse(null);
+  }
+
+  @Override
+  public PostEntity getPostByTitle(String title){
+    return this.jphService.getPostByTitle(title);
   }
 
 }

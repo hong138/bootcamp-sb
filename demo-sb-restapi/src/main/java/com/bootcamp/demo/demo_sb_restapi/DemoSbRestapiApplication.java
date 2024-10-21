@@ -3,6 +3,7 @@ package com.bootcamp.demo.demo_sb_restapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication // @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
 // !!! @ComponentScan
@@ -21,6 +22,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 // @SpringBootConfiguration
 // @EnableAutoConfiguration
 // !!! Ioc (Inversion of Control)
+@EnableScheduling
 public class DemoSbRestapiApplication {
 
 	public static ConfigurableApplicationContext context;

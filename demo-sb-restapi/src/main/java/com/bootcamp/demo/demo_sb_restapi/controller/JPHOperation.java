@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bootcamp.demo.demo_sb_restapi.entity.PostEntity;
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.UserDTO;
 
@@ -26,21 +27,24 @@ public interface JPHOperation {
   @PostMapping("/jph/users")
   List<UserEntity> createUsers();
 
-  @DeleteMapping("/jph/users")
-  Boolean deleteUsers(@RequestParam Long Id);
+  @DeleteMapping("/jph/user")
+  Boolean deleteUser(@RequestParam Long id);
 
-  @PutMapping("/jph/users/{id}") // by PK
-  UserEntity updateUser(@RequestParam Long Id, @RequestBody UserEntity entity);
+  @PutMapping("/jph/user") // by PK
+  UserEntity updateUser(@RequestParam Long id, @RequestBody UserEntity entity);
 
-  @PatchMapping("/jph/users/{id}")
+  @PatchMapping("/jph/user/{id}")
   UserEntity patchUserWebsite(@PathVariable Long id, @RequestParam String website);
 
-  @PostMapping("/jph/users")
-  UserEntity createUser(@RequestBody UserEntity userentity);
+  @PostMapping("/jph/user")
+  UserEntity createUser(@RequestBody UserEntity userEntity);
 
-  @GetMapping("/jph/users/website/{website}")
+  @GetMapping("/jph/user/website/{website}")
   UserEntity getUserByWebsite(@PathVariable String website);
 
   @GetMapping("/jph/users/website/{website}{phone}")
   UserEntity getUserByWebsiteAndPhone(@PathVariable String website, @PathVariable String phone);
+
+  @GetMapping("/jph/post/{title}")
+  PostEntity getPostByTitle(@PathVariable String title);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.bootcamp.demo.bc_forum.dto.AllData;
 import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
+import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -63,5 +64,8 @@ public interface JPHOperation {
 
   @GetMapping("/jph/all")
   List<AllData> getAllData();
+
+  @GetMapping("/jph/user/website/{website}")
+  UserEntity getUserByWebsite(@PathVariable String website);
 
 }

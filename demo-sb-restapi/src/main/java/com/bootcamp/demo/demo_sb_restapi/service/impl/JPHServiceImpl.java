@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.bootcamp.demo.demo_sb_restapi.entity.PostEntity;
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.exception.JPHRestClientException;
 import com.bootcamp.demo.demo_sb_restapi.mapper.JPHMapper;
@@ -18,6 +19,7 @@ import com.bootcamp.demo.demo_sb_restapi.model.Cat;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.CommentDTO;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.PostDTO;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.UserDTO;
+import com.bootcamp.demo.demo_sb_restapi.repository.PostRepository;
 import com.bootcamp.demo.demo_sb_restapi.repository.UserRepository;
 import com.bootcamp.demo.demo_sb_restapi.service.JPHService;
 import com.bootcamp.demo.demo_sb_restapi.util.Scheme;
@@ -35,6 +37,9 @@ public class JPHServiceImpl implements JPHService {
 
   @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  private PostRepository postRepository;
 
   @Autowired
   private JPHMapper jphMapper;
@@ -173,5 +178,10 @@ public class JPHServiceImpl implements JPHService {
       throw new JPHRestClientException("Json Placeholder Exception.");
     }
     return List.of(comments);
+  }
+
+  @Override
+  public PostEntity getPostByTitle (String title){
+    return this.postRepository.findPostEntity(title);
   }
 }

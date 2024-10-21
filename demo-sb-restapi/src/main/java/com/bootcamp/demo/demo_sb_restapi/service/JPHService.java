@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.bootcamp.demo.demo_sb_restapi.entity.PostEntity;
 import com.bootcamp.demo.demo_sb_restapi.entity.UserEntity;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.CommentDTO;
 import com.bootcamp.demo.demo_sb_restapi.model.dto.PostDTO;
@@ -32,4 +33,6 @@ public interface JPHService {
   List<PostDTO> getPosts();
   
   List<CommentDTO> getComments();
+
+  PostEntity getPostByTitle(String title);
 }
