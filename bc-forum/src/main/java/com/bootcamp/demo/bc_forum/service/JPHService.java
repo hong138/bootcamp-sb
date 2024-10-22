@@ -1,11 +1,9 @@
 package com.bootcamp.demo.bc_forum.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -25,7 +23,7 @@ public interface JPHService {
   CommentDTO addCommentByPostId(@PathVariable Long postId, CommentDTO comment);
   CommentDTO updateCommentByCommentId(@PathVariable Long commentId, CommentDTO comment);
   // --------------------------------------
-  Optional<UserEntity> findByWebsite(String website);
+
 
 
 

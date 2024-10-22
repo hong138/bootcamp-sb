@@ -1,7 +1,6 @@
 package com.bootcamp.demo.bc_forum.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +10,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.exception.JPHRestClientException;
 import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
@@ -193,10 +191,6 @@ public class JPHServiceImpl implements JPHService{
     return comment;
   }
 
-  @Override
-  public Optional<UserEntity> findByWebsite(String website){
-    return this.userRepository.findByWebsite(website);
-  }
 
 
 }

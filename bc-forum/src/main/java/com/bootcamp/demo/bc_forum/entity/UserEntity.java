@@ -1,5 +1,6 @@
 package com.bootcamp.demo.bc_forum.entity;
 
+import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,12 +19,13 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+public class UserEntity implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
   private String username;
+  private String email;
   private String phone;
   private String website;
   private String addrStreet;
@@ -35,4 +37,14 @@ public class UserEntity {
   private String comName;
   private String comCatchPhrase;
   private String comBs;
+
+
+  // private Long id;
+  // private String name;
+  // private String username;
+  // private String email;
+  // private Address address;
+  // private String phone;
+  // private String website;
+  // private Company company;
 }
