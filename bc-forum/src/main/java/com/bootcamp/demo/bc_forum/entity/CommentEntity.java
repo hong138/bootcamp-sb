@@ -1,6 +1,5 @@
 package com.bootcamp.demo.bc_forum.entity;
 
-import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,8 +21,8 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommentEntity implements Serializable{
-  @Id // Primary Key
+public class CommentEntity {
+  @Id 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;

@@ -1,15 +1,12 @@
 package com.bootcamp.demo.bc_forum.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,22 +15,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Posts")
+@Table(name = "Companies")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostEntity implements Serializable {
-  @Id
+public class CompanyEntity implements Serializable{
+  @Id 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String title;
-  private String body;
+  private String name;
+  private String catchPhrase;
+  private String bs;
 
-  @Builder.Default
-  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-  private List<CommentEntity> comments = new ArrayList<>();
-  
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private UserEntity user;
 }

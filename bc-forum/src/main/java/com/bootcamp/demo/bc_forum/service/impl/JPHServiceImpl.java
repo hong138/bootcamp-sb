@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.bootcamp.demo.bc_forum.exception.JPHRestClientException;
-import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
+import com.bootcamp.demo.bc_forum.mapper.AllMapper;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -29,7 +29,7 @@ public class JPHServiceImpl implements JPHService{
   private UserRepository userRepository;
 
   @Autowired
-  private JPHMapper jphMapper;
+  private AllMapper jphMapper;
 
   @Value("${api.jph.domain}")
   private String jphDomain;

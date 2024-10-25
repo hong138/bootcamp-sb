@@ -8,13 +8,12 @@ import com.bootcamp.demo.bc_forum.dto.AllData;
 import com.bootcamp.demo.bc_forum.dto.AllData.PostDto;
 import com.bootcamp.demo.bc_forum.dto.AllData.PostDto.CommentDto;
 import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
-import com.bootcamp.demo.bc_forum.entity.UserEntity;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
 
 @Component
-public class JPHMapper {
+public class AllMapper {
   public AllData map(UserDTO user, List<PostDto> postDtos) {
     return AllData.builder() //
         .id(user.getId()) //
@@ -79,24 +78,7 @@ public class JPHMapper {
         .body(comment.getBody()) //
         .build();                                                                                                                                                  
   }
-  
-  public UserEntity map(UserDTO userDTO) {
-    return UserEntity.builder() //
-        .addrLat(userDTO.getAddress().getGeo().getLat()) //
-        .addrLng(userDTO.getAddress().getGeo().getLng()) //
-        .addrCity(userDTO.getAddress().getCity()) //
-        .addrStreet(userDTO.getAddress().getStreet()) //
-        .addrSuite(userDTO.getAddress().getSuite()) //
-        .addrZipcode(userDTO.getAddress().getZipcode()) //
-        .comBs(userDTO.getCompany().getBs()) //
-        .comCatchPhrase(userDTO.getCompany().getCatchPhrase()) //
-        .comName(userDTO.getCompany().getName()) //
-        .name(userDTO.getName()) //
-        .username(userDTO.getUsername()) //
-        .phone(userDTO.getPhone()) //
-        .website(userDTO.getWebsite()) //
-        .build();
-  }
+
 
 
 }

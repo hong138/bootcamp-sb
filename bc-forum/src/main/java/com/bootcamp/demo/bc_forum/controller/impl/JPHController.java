@@ -14,7 +14,7 @@ import com.bootcamp.demo.bc_forum.dto.AllData.PostDto.CommentDto;
 import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
 import com.bootcamp.demo.bc_forum.exception.BusinessException;
 import com.bootcamp.demo.bc_forum.exception.ErrorCode;
-import com.bootcamp.demo.bc_forum.mapper.JPHMapper;
+import com.bootcamp.demo.bc_forum.mapper.AllMapper;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
@@ -26,7 +26,7 @@ public class JPHController implements JPHOperation {
   private JPHService jphService;
 
   @Autowired
-  private JPHMapper jphMapper;
+  private AllMapper jphMapper;
 
   // --------------------------------------
 
