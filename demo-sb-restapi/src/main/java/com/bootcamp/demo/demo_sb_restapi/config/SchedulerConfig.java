@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component;
 public class SchedulerConfig {
   
   // @Scheduled(fixedRate = 5000)
-  // public void sayHello() {
-  //   System.out.println("Task A Hello World");
-  // }
+  public void sayHello() throws Exception {
+    System.out.println("Task A Starts. time=" + System.currentTimeMillis());
+    Thread.sleep(4000);
+    System.out.println("Task A Ends. time=" + System.currentTimeMillis());
+  }
 
   // @Scheduled(fixedRate = 4000)
   // public void sayBye() {

@@ -1,5 +1,6 @@
 package com.bootcamp.demo.demo_sb_restapi.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostEntity {
+public class PostEntity implements Serializable{
   @Id 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
