@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
 import com.bootcamp.demo.bc_forum.entity.AddressEntity;
 import com.bootcamp.demo.bc_forum.entity.CommentEntity;
 import com.bootcamp.demo.bc_forum.entity.CompanyEntity;

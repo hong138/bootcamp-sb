@@ -1,4 +1,6 @@
-package com.bootcamp.demo.bc_forum.exception;
+package com.bootcamp.demo.bc_forum.util;
+
+import com.bootcamp.demo.bc_forum.exception.ErrorCode;
 
 import lombok.Getter;
 
@@ -22,5 +24,9 @@ public class BusinessException extends RuntimeException{
   private BusinessException(ErrorCode error, String overrideMessage) {
     super(overrideMessage);
     this.code = error.getCode();
+  }
+
+  public int getCode() {
+    return this.code;
   }
 }

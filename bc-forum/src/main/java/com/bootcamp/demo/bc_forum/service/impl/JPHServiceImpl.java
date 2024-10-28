@@ -3,7 +3,6 @@ package com.bootcamp.demo.bc_forum.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -21,8 +20,10 @@ import com.bootcamp.demo.bc_forum.util.Scheme;
 
 @Service
 public class JPHServiceImpl implements JPHService{
+  
+  private final String errorMsg = "RestTemplate Error - JsonPlaceHolder";
+
   @Autowired
-  @Qualifier(value = "JPHRestTemplate")
   private RestTemplate restTemplate;
 
   @Autowired
@@ -169,6 +170,7 @@ public class JPHServiceImpl implements JPHService{
 
   @Override
   public CommentDTO addCommentByPostId(Long postId, CommentDTO comment){
+    comment.setPostId(postId);
     String url = UriComponentsBuilder.newInstance()
             .scheme(Scheme.HTTPS.name().toLowerCase())
             .host(jphDomain)

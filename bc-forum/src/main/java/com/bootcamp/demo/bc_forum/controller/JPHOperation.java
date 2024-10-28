@@ -50,7 +50,7 @@ public interface JPHOperation {
   @GetMapping("/comments/{postId}") // (E3 T3 Comment b) Get comments by postId
   List<CommentDTO> getCommentsByPostId(@PathVariable Long postId);
 
-  @GetMapping("/{userId}/comments") // !!!
+  @GetMapping("/{userId}/comments") // 
   UserCommentDTO getCommentsByUserId(@PathVariable String userId);
 
   @PostMapping("/comments/{postId}") // !!! (E3 T3 Comment c) Add a new comment by postId

@@ -1,14 +1,9 @@
 package com.bootcamp.demo.bc_forum.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.bootcamp.demo.bc_forum.model.UserDTO;
-
 public class ApiResp<T> {
   private String code;
   private String message;
-  private List<T> data;
+  private T data;
 
   public String getCode() {
     return this.code;
@@ -18,53 +13,48 @@ public class ApiResp<T> {
     return this.message;
   }
 
-  public List<T> getData() {
+  public T getData() {
     return this.data;
   }
 
-  public ApiResp(Builder<T> builder) {
+  public static <T> Builder<T> builder() {
+    return new Builder<>();
+  }
+
+  private ApiResp(Builder<T> builder) {
     this.code = builder.code;
     this.message = builder.message;
     this.data = builder.data;
   }
 
-  public static<U> Builder<U> builder() {
-    return new Builder<>();
-  }
-
   public static class Builder<T> {
     private String code;
     private String message;
-    private List<T> data;
-  
+    private T data;
 
-    public Builder<T> code(String code) {
-      this.code = code;
+    public Builder<T> ok() {
+      this.code = SysCode.OK.getCode();
+      this.message = SysCode.OK.getMessage();
       return this;
     }
 
-    public Builder<T> message(String message) {
-      this.message = message;
+    public Builder<T> fail(Exception e) {
+      this.code = SysCode.FAIL.getCode();
+      this.message = e.getMessage();
       return this;
     }
 
-    public Builder<T> data(List<T> data) {
+    public Builder<T> data(T data) {
       this.data = data;
       return this;
     }
 
     public ApiResp<T> build() {
+      if (this.data == null)
+        throw new IllegalArgumentException("ApiResp.data should not be null.");
       return new ApiResp<>(this);
     }
   }
-  
-
-  public static void main(String[] args) {
-    ApiResp<UserDTO> response = ApiResp.<UserDTO>builder()
-                                .code("000000")
-                                .message("Success.")
-                                .build();
-
     // Controller Layer -> return ApiResp<>
     // Global Exception Handler -> return ApiResp<>
 
@@ -72,7 +62,5 @@ public class ApiResp<T> {
     // enum ErrorCode for error only.
 
 
-    List<String> strings = new ArrayList<>();
-    
-  }
+  
 }

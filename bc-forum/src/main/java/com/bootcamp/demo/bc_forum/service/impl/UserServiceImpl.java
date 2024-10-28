@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bootcamp.demo.bc_forum.entity.UserEntity;
-import com.bootcamp.demo.bc_forum.exception.BusinessException;
 import com.bootcamp.demo.bc_forum.exception.ErrorCode;
 import com.bootcamp.demo.bc_forum.repository.UserRepository;
 import com.bootcamp.demo.bc_forum.service.UserService;
+import com.bootcamp.demo.bc_forum.util.BusinessException;
 
 @Service
 public class UserServiceImpl implements UserService{

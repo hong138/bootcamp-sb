@@ -12,13 +12,13 @@ import com.bootcamp.demo.bc_forum.dto.AllData;
 import com.bootcamp.demo.bc_forum.dto.AllData.PostDto;
 import com.bootcamp.demo.bc_forum.dto.AllData.PostDto.CommentDto;
 import com.bootcamp.demo.bc_forum.dto.UserCommentDTO;
-import com.bootcamp.demo.bc_forum.exception.BusinessException;
 import com.bootcamp.demo.bc_forum.exception.ErrorCode;
 import com.bootcamp.demo.bc_forum.mapper.AllMapper;
 import com.bootcamp.demo.bc_forum.model.CommentDTO;
 import com.bootcamp.demo.bc_forum.model.PostDTO;
 import com.bootcamp.demo.bc_forum.model.UserDTO;
 import com.bootcamp.demo.bc_forum.service.JPHService;
+import com.bootcamp.demo.bc_forum.util.BusinessException;
 
 @RestController
 public class JPHController implements JPHOperation {
