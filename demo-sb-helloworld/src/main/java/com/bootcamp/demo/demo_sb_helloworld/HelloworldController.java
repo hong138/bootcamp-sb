@@ -10,7 +10,7 @@ public class HelloworldController {
   // endpoint to locate the web service
   // http://localhost:8080/hello
   // http://127.0.0.1:8080/hello
-  @GetMapping(value = "v2/hello")
+  @GetMapping(value = "hello")
   public String sayHello() {
     return "Hello World!";
   }

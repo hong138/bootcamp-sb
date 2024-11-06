@@ -1,8 +1,12 @@
 {
   "configurations": [
-    
-
-    
+    {
+      "type": "java",
+      "name": "ActuatorDemoApplication",
+      "request": "launch",
+      "mainClass": "com.bootcamp.demo.actuator_demo.ActuatorDemoApplication",
+      "projectName": "actuator-demo"
+    },
     {
       "type": "java",
       "name": "Database",

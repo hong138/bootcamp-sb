@@ -1,0 +1,14 @@
+server:
+  port: 8095
+
+# spring:
+#   application:
+#     name: demo-helloworld
+
+# info.application:
+#   name: actuator-demo
+#   description: Actuator Demo Project
+#   author:
+#     name: Vincent Lau
+#     bio: Testing Bio
+

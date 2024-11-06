@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Hello World App</title>
+</head>
+
+<body>
+  <h1>Coin Data</h1>
+  <form id="updateCoinForm" onsubmit="event.preventDefault(); fetchCoins();">
+    <button type="button" onclick="fetchCoins()">Update</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Current Price (USD)</th>
+      </tr>
+    </thead>
+    <tbody id="coin-table">
+      <tr th:each="coin : ${coins}">
+        <td th:text="${coin.id}"></td>
+        <td><img th:src="${coin.image}" alt="Coin Image" height="30"></td>
+        <td th:text="${coin.currentPrice}"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function fetchCoins() {
+      const increment = 1;
+      fetch('/updatecoins')
+        .then(response => response.json())
+        .then(coins => {
+          const tableBody = document.getElementById('coin-table');
+          tableBody.innerHTML = ''; // Clear existing table rows
+          coins.forEach(coin => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                            <td>${coin.id}</td>
+                            <td><img src="${coin.image}" alt="Coin Image" height="30"></td>
+                            <td>${coin.currentPrice}</td>
+                        `;
+            tableBody.appendChild(row); // Append new rows to the table
+          });
+        })
+        .catch(error => console.error('Error fetching coin data:', error));
+    }
+
+    // Call fetchLatestCoins every second
+    setInterval(fetchCoins, 30000);
+  </script>
+</body>
+
+</html>
